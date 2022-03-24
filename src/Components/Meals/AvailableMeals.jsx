@@ -1,18 +1,14 @@
 import React from "react";
 
 import styled from "styled-components";
+import Card from "../UI/Card";
+import MealItem from "./MealItem/MealItem";
 
 const Section = styled.section`
   max-width: 60rem;
   width: 90%;
   margin: 2rem auto;
   animation: meals-appear 1s ease-out forwards;
-
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
 
   @keyframes meals-appear {
     from {
@@ -25,6 +21,12 @@ const Section = styled.section`
       transform: translateY(0);
     }
   }
+`;
+
+const StyledUl = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 const DUMMY_MEALS = [
@@ -55,10 +57,20 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = (props) => {
-  const mealsList = DUMMY_MEALS.map((meal) => <li>{meal.name}</li>);
+  const mealsList = DUMMY_MEALS.map((meal) => (
+    <MealItem
+      id={meal.id}
+      key={meal.id}
+      name={meal.name}
+      description={meal.description}
+      price={meal.price}
+    />
+  ));
   return (
     <Section>
-      <ul>{mealsList}</ul>
+      <Card>
+        <StyledUl>{mealsList}</StyledUl>
+      </Card>
     </Section>
   );
 };
