@@ -1,7 +1,7 @@
 import React from "react";
 
-import meals_image from "../../assets/meals.jpeg";
-import HeaderCartButton from "./HeaderCartButton";
+import meals_image from "../../../assets/meals.jpeg";
+import HeaderCartButton from "../Header/HeaderCartButton";
 import styled from "styled-components";
 
 const HeaderStyled = styled.header`

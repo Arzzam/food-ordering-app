@@ -1,7 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
-import CartIcon from "../Cart/CartIcon";
+import CartIcon from "../../Cart/CartIcon";
 
 const Button = styled.button`
   cursor: pointer;
