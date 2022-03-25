@@ -1,6 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
+import Modal from "../UI/Modal";
 
 const Div1 = styled.div`
   .cart-items {
@@ -61,17 +62,21 @@ const Cart = (props) => {
   );
 
   return (
-    <div>
+    <Modal onClose={props.onClose}>
       <Div1>
         {cartItems}
-        <span className="total">Total Amount</span>
-        <span>63</span>
+        <div className="total">
+          <span>Total Amount</span>
+          <span>63</span>
+        </div>
       </Div1>
       <Div2>
-        <button className="button-close">Close</button>
+        <button className="button-close" onClick={props.onClose}>
+          Close
+        </button>
         <button className="button-order">Order</button>
       </Div2>
-    </div>
+    </Modal>
   );
 };
 

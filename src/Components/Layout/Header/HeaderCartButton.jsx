@@ -65,7 +65,7 @@ const Button = styled.button`
 
 const HeaderCartButton = (props) => {
   return (
-    <Button>
+    <Button onClick={props.onClick}>
       <span className="icon">
         <CartIcon />
       </span>
