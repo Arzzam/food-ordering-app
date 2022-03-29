@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import classes from "../UI/Modal.module.css";
+import classes from "./Modal.module.css";
 
 const BackDrop = (props) => {
   return <div className={classes.backdrop} onClick={props.onClose} />;
