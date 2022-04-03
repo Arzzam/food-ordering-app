@@ -33,14 +33,12 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
 
-  const cardContext = [
-    {
-      items: cartState.items,
-      totalAmount: cartState.totalAmount,
-      addItem: cartAddItemHandler,
-      removeItem: cartRemoveItemHandler,
-    },
-  ];
+  const cardContext = {
+    items: cartState.items,
+    totalAmount: cartState.totalAmount,
+    addItem: cartAddItemHandler,
+    removeItem: cartRemoveItemHandler,
+  };
 
   return (
     <CardContext.Provider value={cardContext}>
