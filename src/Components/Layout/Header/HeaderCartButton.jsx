@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import styled, { keyframes, css } from "styled-components";
+import styled from "styled-components";
 import CartContext from "../../../store/cart-context";
 import CartIcon from "../../Cart/CartIcon";
 import classes from "./HeaderButton.module.css";
