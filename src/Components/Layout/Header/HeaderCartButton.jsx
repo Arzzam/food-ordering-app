@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import CartContext from "../../../store/cart-context";
 import CartIcon from "../../Cart/CartIcon";
+import classes from "./HeaderButton.module.css";
 
 const Button = styled.button`
   cursor: pointer;
@@ -40,39 +41,38 @@ const Button = styled.button`
   &:active .badge {
     background-color: #92320c;
   }
-
-  .bump {
-    animation: bump 300ms ease-out;
-  }
-
-  @keyframes bump {
-    0% {
-      transform: scale(1);
-    }
-    10% {
-      transform: scale(0.9);
-    }
-    30% {
-      transform: scale(1.1);
-    }
-    50% {
-      transform: scale(1.15);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
 `;
 
 const HeaderCartButton = (props) => {
-  const cartctx = useContext(CartContext);
+  const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
+  const cartCtx = useContext(CartContext);
 
-  const noOfCartItems = cartctx.items.reduce((currentNumber, item) => {
-    return currentNumber + item.amount;
+  const { items } = cartCtx;
+
+  const noOfCartItems = items.reduce((curNumber, item) => {
+    return curNumber + item.amount;
   }, 0);
 
+  const Bump = classes.bump;
+  const btnClasses = `${Button} ${btnIsHighlighted ? Bump : ""}`;
+
+  useEffect(() => {
+    if (items.length === 0) {
+      return;
+    }
+    setBtnIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setBtnIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
+
   return (
-    <Button onClick={props.onClick}>
+    <Button className={btnClasses} onClick={props.onClick}>
       <span className="icon">
         <CartIcon />
       </span>
