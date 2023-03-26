@@ -32,13 +32,13 @@ const StyledUl = styled.ul`
 const DUMMY_MEALS = [
   {
     id: "m1",
-    name: "Sushi",
+    name: "Grilled Fish with Sauteed Veggies",
     description: "Finest fish and veggies",
     price: 199.99,
   },
   {
     id: "m2",
-    name: "Schnitzel",
+    name: "Belgium Meatballs",
     description: "A german specialty!",
     price: 250.5,
   },
