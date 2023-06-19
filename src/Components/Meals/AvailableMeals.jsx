@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import styled from "styled-components";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
+import Loader from "../Spinner/Spinner";
 
 const Section = styled.section`
   max-width: 60rem;
@@ -23,6 +23,13 @@ const Section = styled.section`
   }
 `;
 
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const StyledUl = styled.ul`
   list-style: none;
   margin: 0;
@@ -31,26 +38,35 @@ const StyledUl = styled.ul`
 
 const AvailableMeals = (props) => {
   const [meals, setMeals] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchMeals = async () => {
+    const response = await fetch(
+      "https://food-ordering-app-17fcf-default-rtdb.firebaseio.com/meals.json"
+    );
+
+    if (!response.ok) {
+      throw new Error("Something went Wrong!");
+    }
+
+    const responseData = await response.json();
+    const loadedMeals = [];
+
+    for (const key in responseData) {
+      loadedMeals.push({
+        id: key,
+        name: responseData[key].name,
+        description: responseData[key].description,
+        price: responseData[key].price,
+      });
+    }
+    setMeals(loadedMeals);
+  };
 
   useEffect(() => {
-    const fetchMeals = async () => {
-      const response = await fetch(
-        "https://food-ordering-app-17fcf-default-rtdb.firebaseio.com/meals.json"
-      );
-      const responseData = await response.json();
-      const loadedMeals = [];
-
-      for (const key in responseData) {
-        loadedMeals.push({
-          id: key,
-          name: responseData[key].name,
-          description: responseData[key].description,
-          price: responseData[key].price,
-        });
-      }
-      setMeals(loadedMeals);
-    };
-    fetchMeals();
+    fetchMeals().catch((error) => {
+      setError(error.message);
+    });
   }, []);
 
   const mealsList = meals.map((meal) => (
@@ -65,7 +81,14 @@ const AvailableMeals = (props) => {
   return (
     <Section>
       <Card>
-        <StyledUl>{mealsList}</StyledUl>
+        {meals.length === 0 || error ? (
+          <CenterDiv>
+            <Loader />
+            {error}
+          </CenterDiv>
+        ) : (
+          <StyledUl>{mealsList}</StyledUl>
+        )}
       </Card>
     </Section>
   );

@@ -1,26 +1,22 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-const rotate360 = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const Spinner = styled.div`
-  animation: ${rotate360} 1s linear infinite;
-  transform: translateZ(0);
-
-  border-top: 2px solid grey;
-  border-right: 2px solid grey;
-  border-bottom: 2px solid grey;
-  border-left: 4px solid black;
-  background: transparent;
-  width: 24px;
-  height: 24px;
+const Loader = styled.div`
+  border: 5px solid #92320c;
+  border-top: 5px #4d1601 solid;
   border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  animation: spin 2s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
-export default Spinner;
+export default Loader;
