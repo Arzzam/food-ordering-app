@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 const Div1 = styled.div`
   .cart-items {
@@ -92,6 +93,7 @@ const Cart = (props) => {
           <span>{totalAmount}</span>
         </div>
       </Div1>
+      <Checkout />
       <Div2>
         <button className="button-close" onClick={props.onClose}>
           Close
