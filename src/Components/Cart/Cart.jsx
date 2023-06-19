@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import styled from "styled-components";
 import CartContext from "../../store/cart-context";
@@ -57,6 +57,7 @@ const Div2 = styled.div`
 
 const Cart = (props) => {
   const ctx = useContext(CartContext);
+  const [showOrderForm, setShowOrderForm] = useState(false);
 
   const hasItems = ctx.items.length > 0;
   const totalAmount = `₹${ctx.totalAmount.toFixed(2)}`;
@@ -67,6 +68,10 @@ const Cart = (props) => {
 
   const cartItemRemoveHandler = (id) => {
     ctx.removeItem(id);
+  };
+
+  const orderHandler = () => {
+    setShowOrderForm(true);
   };
 
   const cartItems = (
@@ -93,13 +98,20 @@ const Cart = (props) => {
           <span>{totalAmount}</span>
         </div>
       </Div1>
-      <Checkout />
-      <Div2>
-        <button className="button-close" onClick={props.onClose}>
-          Close
-        </button>
-        {hasItems && <button className="button-order">Order</button>}
-      </Div2>
+      {showOrderForm ? (
+        <Checkout onClick={props.onClose} />
+      ) : (
+        <Div2>
+          <button className="button-close" onClick={props.onClose}>
+            Close
+          </button>
+          {hasItems && (
+            <button className="button-order" onClick={orderHandler}>
+              Order
+            </button>
+          )}
+        </Div2>
+      )}
     </Modal>
   );
 };
