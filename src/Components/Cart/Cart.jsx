@@ -74,6 +74,19 @@ const Cart = (props) => {
     setShowOrderForm(true);
   };
 
+  const submitOrderHandler = (userData) => {
+    fetch(
+      "https://food-ordering-app-17fcf-default-rtdb.firebaseio.com/orders.json",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: ctx.items,
+        }),
+      }
+    );
+  };
+
   const cartItems = (
     <ul className="cart-items">
       {ctx.items.map((item) => (
@@ -99,7 +112,7 @@ const Cart = (props) => {
         </div>
       </Div1>
       {showOrderForm ? (
-        <Checkout onClick={props.onClose} />
+        <Checkout onClick={props.onClose} onSubmit={submitOrderHandler} />
       ) : (
         <Div2>
           <button className="button-close" onClick={props.onClose}>

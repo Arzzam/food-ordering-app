@@ -42,9 +42,15 @@ const Checkout = (props) => {
       enteredCityIsValid &&
       enteredPinIsValid;
 
-    if (formIsValid) {
+    if (!formIsValid) {
       return;
     }
+    props.onSubmit({
+      name: nameInput,
+      street: streetInput,
+      city: cityInput,
+      pincode: postalInput,
+    });
   };
 
   const controlClasses = (title) => {
