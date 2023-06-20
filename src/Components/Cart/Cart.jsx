@@ -55,9 +55,31 @@ const Div2 = styled.div`
   }
 `;
 
+const StyledButton = styled.button`
+  display: flex;
+  justify-self: end;
+  align-items: end;
+  font: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #8a2b06;
+  padding: 0.5rem 2rem;
+  border-radius: 25px;
+  margin-left: 1rem;
+
+  &:hover,
+  &:active {
+    background-color: #5a1a01;
+    border-color: #5a1a01;
+    color: white;
+  }
+`;
+
 const Cart = (props) => {
   const ctx = useContext(CartContext);
   const [showOrderForm, setShowOrderForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const hasItems = ctx.items.length > 0;
   const totalAmount = `₹${ctx.totalAmount.toFixed(2)}`;
@@ -74,8 +96,9 @@ const Cart = (props) => {
     setShowOrderForm(true);
   };
 
-  const submitOrderHandler = (userData) => {
-    fetch(
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
       "https://food-ordering-app-17fcf-default-rtdb.firebaseio.com/orders.json",
       {
         method: "POST",
@@ -85,6 +108,9 @@ const Cart = (props) => {
         }),
       }
     );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    ctx.clearCart();
   };
 
   const cartItems = (
@@ -102,8 +128,8 @@ const Cart = (props) => {
     </ul>
   );
 
-  return (
-    <Modal onClose={props.onClose}>
+  const cartModalContent = (
+    <React.Fragment>
       <Div1>
         {cartItems}
         <div className="total">
@@ -125,6 +151,25 @@ const Cart = (props) => {
           )}
         </Div2>
       )}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Sending the order data...</p>;
+
+  const didSubmittingContent = (
+    <div>
+      <p>Successfully sent the order!</p>
+      <StyledButton className={Div2.button} onClick={props.onClose}>
+        x
+      </StyledButton>
+    </div>
+  );
+
+  return (
+    <Modal onClose={props.onClose}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && didSubmittingContent}
     </Modal>
   );
 };
